@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>COLORFUL KANJI AUTH™ — Investor Pitch | DUNKSOFT Co., Ltd.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #060810;
+  --bg2: #0d1120;
+  --bg3: #141828;
+  --line: rgba(255,255,255,0.07);
+  --line2: rgba(255,255,255,0.15);
+  --txt: #e8eaf2;
+  --txt2: #8890b0;
+  --txt3: #4a5070;
+  --gold: #c8960a;
+  --gold2: #f0c040;
+  --cyan: #22d3ee;
+  --purple: #a78bfa;
+  --red: #f87171;
+  --green: #4ade80;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* LANG TOGGLE */
+.lang-toggle {
+  position: fixed;
+  top: 16px; right: 20px;
+  z-index: 100;
+  display: flex;
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.lang-btn {
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  border: none;
+  background: transparent;
+  color: var(--txt2);
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all .2s;
+}
+.lang-btn.active { background: var(--gold); color: #000; }
+
+/* COVER */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 48px 60px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.cover-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,150,10,0.12) 0%, transparent 70%);
+  top: -200px; right: -100px;
+  pointer-events: none;
+}
+
+.cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  border: 1px solid rgba(200,150,10,0.3);
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.cover-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.cover-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: -1px;
+}
+.cover-title .accent { color: var(--gold2); }
+.cover-title-en {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(14px, 2.5vw, 20px);
+  color: var(--txt2);
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+.cover-sub {
+  font-size: 15px;
+  color: var(--txt2);
+  max-width: 560px;
+  line-height: 1.9;
+  margin-bottom: 32px;
+}
+.cover-sub-en {
+  font-size: 13px;
+  color: var(--txt3);
+  max-width: 560px;
+  line-height: 1.9;
+  margin-bottom: 32px;
+}
+.cover-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--txt3);
+  letter-spacing: 2px;
+}
+
+/* KANJI DEMO */
+.kanji-demo {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0 32px;
+}
+.kd-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.kd-char {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 36px;
+  font-weight: 900;
+  width: 56px; height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.kd-hex {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--txt3);
+  letter-spacing: 1px;
+}
+
+/* SECTIONS */
+.section {
+  padding: 60px 48px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.sec-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--txt3);
+  margin-bottom: 6px;
+}
+.sec-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--txt);
+}
+.sec-title-en {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--txt3);
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+}
+
+/* PROBLEM CARDS */
+.prob-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; margin-bottom: 24px; }
+.prob-card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.prob-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.prob-red::before { background: var(--red); }
+.prob-yellow::before { background: #facc15; }
+.prob-purple::before { background: var(--purple); }
+.prob-icon { font-size: 24px; margin-bottom: 10px; }
+.prob-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--txt); }
+.prob-title-en { font-size: 10px; color: var(--txt3); margin-bottom: 8px; font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+.prob-body { font-size: 11px; color: var(--txt2); line-height: 1.8; }
+
+/* SOLUTION */
+.solution-box {
+  background: var(--bg2);
+  border: 1px solid rgba(200,150,10,0.3);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin: 20px 0;
+  position: relative;
+}
+.solution-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: radial-gradient(ellipse at top left, rgba(200,150,10,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* PHASE TABLE */
+.phase-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+.phase-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--txt3);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line2);
+  font-weight: 500;
+}
+.phase-table td {
+  font-size: 12px;
+  color: var(--txt);
+  padding: 12px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.7;
+}
+.phase-table tr:last-child td { border-bottom: none; }
+.ph-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+.ph-now { background: rgba(74,222,128,0.15); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
+.ph-2 { background: rgba(34,211,238,0.12); color: var(--cyan); border: 1px solid rgba(34,211,238,0.25); }
+.ph-3 { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+.ph-4 { background: rgba(200,150,10,0.15); color: var(--gold2); border: 1px solid rgba(200,150,10,0.3); }
+.num-highlight { font-weight: 700; color: var(--gold2); font-family: 'DM Mono', monospace; }
+
+/* MARKET */
+.market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; margin: 20px 0; }
+.market-card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.market-num {
+  font-family: 'DM Mono', monospace;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 500;
+  color: var(--gold2);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.market-label { font-size: 12px; color: var(--txt2); margin-bottom: 2px; }
+.market-label-en { font-size: 10px; color: var(--txt3); font-family: 'DM Mono', monospace; }
+
+/* MOAT */
+.moat-list { display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+.moat-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.moat-icon {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 22px;
+  font-weight: 900;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.moat-content { flex: 1; }
+.moat-title { font-size: 13px; font-weight: 700; color: var(--txt); margin-bottom: 2px; }
+.moat-title-en { font-size: 10px; color: var(--txt3); font-family: 'DM Mono', monospace; letter-spacing: 1px; margin-bottom: 4px; }
+.moat-body { font-size: 11px; color: var(--txt2); line-height: 1.8; }
+
+/* ASK */
+.ask-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; margin: 20px 0; }
+.ask-card {
+  background: var(--bg2);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid var(--line);
+}
+.ask-amount {
+  font-family: 'DM Mono', monospace;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--gold2);
+  margin-bottom: 4px;
+}
+.ask-label { font-size: 12px; color: var(--txt2); }
+.ask-label-en { font-size: 10px; color: var(--txt3); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+/* DEMO LINK */
+.demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--line2);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 1px;
+  margin: 6px 0;
+  transition: border-color .2s;
+}
+.demo-link:hover { border-color: var(--cyan); }
+
+/* FOOTER */
+.pitch-footer {
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--txt3);
+  letter-spacing: 1px;
+  border-top: 1px solid var(--line);
+}
+
+/* HIGHLIGHT */
+.hl { color: var(--gold2); font-weight: 700; }
+.hl-cyan { color: var(--cyan); }
+.hl-green { color: var(--green); }
+
+/* BILINGUAL */
+.ja { }
+.en { display: none; }
+body.en-mode .ja { display: none; }
+body.en-mode .en { display: block; }
+.ja-inline { }
+.en-inline { display: none; }
+body.en-mode .ja-inline { display: none; }
+body.en-mode .en-inline { display: inline; }
+
+@media (max-width: 600px) {
+  .cover, .section { padding: 40px 24px; }
+  .pitch-footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('ja')">JA</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-glow"></div>
+
+  <div class="cover-badge">PATENT PENDING · DUNKSOFT Co., Ltd. · 2026</div>
+
+  <div class="cover-title">
+    <span class="ja-inline">色彩日本語<br><span class="accent">認証システム</span></span>
+    <span class="en-inline">Chromatic Kanji<br><span class="accent">Authentication</span></span>
+  </div>
+  <div class="cover-title-en">COLORFUL KANJI AUTH™</div>
+
+  <div class="kanji-demo">
+    <div class="kd-item">
+      <div class="kd-char" style="background:#1a2a1a;color:#4ade80">星</div>
+      <div class="kd-hex">#4ADE80</div>
+    </div>
+    <div class="kd-item">
+      <div class="kd-char" style="background:#2a1a1a;color:#f87171">山</div>
+      <div class="kd-hex">#F87171</div>
+    </div>
+    <div class="kd-item">
+      <div class="kd-char" style="background:#1a1a2a;color:#a78bfa">川</div>
+      <div class="kd-hex">#A78BFA</div>
+    </div>
+    <div class="kd-item">
+      <div class="kd-char" style="background:#2a2a10;color:#f0c040">海</div>
+      <div class="kd-hex">#F0C040</div>
+    </div>
+    <div class="kd-item">
+      <div class="kd-char" style="background:#1a2a2a;color:#22d3ee">空</div>
+      <div class="kd-hex">#22D3EE</div>
+    </div>
+  </div>
+
+  <div class="ja cover-sub">
+    漢字1文字＋色（HEXカラー）の組み合わせで本人確認を行う、まったく新しい認証システム。デバイスに依存せず、生体情報を使わず、文化的記憶に根ざした——次世代の認証体験。
+  </div>
+  <div class="en cover-sub-en">
+    A revolutionary authentication system using Kanji characters combined with color (HEX code). Device-independent, biometric-free, rooted in cultural memory — the next generation of authentication.
+  </div>
+  <div class="cover-meta">DUNKSOFT Co., Ltd. &nbsp;·&nbsp; Smart Life Styles™ &nbsp;·&nbsp; INVESTOR PITCH 2026</div>
+</div>
+
+<!-- 1. PROBLEM -->
+<div class="section">
+  <div class="sec-num">01 / 06</div>
+  <div class="sec-title ja">認証の危機</div>
+  <div class="sec-title en">The Authentication Crisis</div>
+  <div class="sec-title-en">PROBLEM</div>
+
+  <div class="prob-grid">
+    <div class="prob-card prob-red">
+      <div class="prob-icon">⚠</div>
+      <div class="prob-title ja">デバイス依存の脆弱性</div>
+      <div class="prob-title en">Device Dependency</div>
+      <div class="prob-title-en">DEVICE LOCK-IN</div>
+      <div class="prob-body ja">スマートフォン買い替え・紛失で多要素認証がゼロリセット。メール・電話・SNS認証はすべてデバイスに紐づいており、端末を失えば全アクセスを失う。</div>
+      <div class="prob-body en">When users switch or lose devices, multi-factor authentication resets to zero. Email, phone, and SNS authentication are all device-bound — lose the device, lose all access.</div>
+    </div>
+    <div class="prob-card prob-yellow">
+      <div class="prob-icon">⚡</div>
+      <div class="prob-title ja">ハッキング被害の急増</div>
+      <div class="prob-title en">Surging Cyberattacks</div>
+      <div class="prob-title-en">SECURITY BREACH</div>
+      <div class="prob-body ja">2024年のサイバー攻撃被害は過去最大規模。パスワード漏洩・SIMスワッピング・フィッシングの高度化で、従来型認証の信頼性が根底から揺らいでいる。</div>
+      <div class="prob-body en">Cyberattack damage in 2024 reached record levels. Password breaches, SIM swapping, and sophisticated phishing have fundamentally undermined traditional authentication.</div>
+    </div>
+    <div class="prob-card prob-purple">
+      <div class="prob-icon">🔒</div>
+      <div class="prob-title ja">生体認証の不可逆問題</div>
+      <div class="prob-title en">The Biometric Dilemma</div>
+      <div class="prob-title-en">BIOMETRIC RISK</div>
+      <div class="prob-body ja">指紋・顔認証は漏洩しても「変更不可能」。一度盗まれたバイオメトリクスは永久に危険にさらされる。本人に紐づくが故の致命的な弱点。</div>
+      <div class="prob-body en">Once fingerprints or facial data are compromised, they cannot be changed. Biometrics are permanently exposed after a single breach — an inherent, unfixable vulnerability.</div>
+    </div>
+  </div>
+
+  <div class="solution-box">
+    <div style="font-size:13px; font-weight:700; color:var(--gold2); margin-bottom:8px;">
+      <span class="ja">認証の本質的な問題——「知識」でも「所持」でも「生体」でもない第四の要素が必要</span>
+      <span class="en">The core problem: we need a fourth factor — not "knowledge," not "possession," not "biometrics"</span>
+    </div>
+    <div style="font-size:12px; color:var(--txt2); line-height:1.9;">
+      <span class="ja">それは<span class="hl">「文化的記憶」</span>——本人の文化的背景に根ざした、デバイスにも生体にも依存しない認証要素</span>
+      <span class="en">The answer is <span class="hl">"Cultural Memory"</span> — an authentication factor rooted in personal cultural background, independent of devices and biometrics</span>
+    </div>
+  </div>
+</div>
+
+<!-- 2. SOLUTION -->
+<div class="section">
+  <div class="sec-num">02 / 06</div>
+  <div class="sec-title ja">解決策：色彩日本語認証</div>
+  <div class="sec-title en">Solution: Chromatic Kanji Auth</div>
+  <div class="sec-title-en">SOLUTION</div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+    <div>
+      <div style="font-size:12px; color:var(--txt3); font-family:'DM Mono',monospace; letter-spacing:2px; margin-bottom:12px;">AUTHENTICATION ELEMENTS</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; align-items:center; gap:12px; background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:10px 14px;">
+          <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--txt3); min-width:20px;">①</div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--txt);" class="ja">ID（部屋番号・ユーザーID）</div>
+            <div style="font-size:12px; font-weight:700; color:var(--txt);" class="en">ID (Room number / User ID)</div>
+            <div style="font-size:10px; color:var(--txt3); font-family:'DM Mono',monospace;">IDENTIFIER</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:var(--bg2); border:1px solid rgba(200,150,10,0.3); border-radius:8px; padding:10px 14px;">
+          <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--gold); min-width:20px;">②</div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--txt);" class="ja">漢字1〜2文字（苗字・名前）</div>
+            <div style="font-size:12px; font-weight:700; color:var(--txt);" class="en">1–2 Kanji characters (name)</div>
+            <div style="font-size:10px; color:var(--txt3); font-family:'DM Mono',monospace;">KANJI FACTOR</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; background:var(--bg2); border:1px solid rgba(34,211,238,0.25); border-radius:8px; padding:10px 14px;">
+          <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--cyan); min-width:20px;">③</div>
+          <div>
+            <div style="font-size:12px; font-weight:700; color:var(--txt);" class="ja">色（32〜128ビットカラー）</div>
+            <div style="font-size:12px; font-weight:700; color:var(--txt);" class="en">Color (32–128-bit color)</div>
+            <div style="font-size:10px; color:var(--txt3); font-family:'DM Mono',monospace;">COLOR FACTOR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px; color:var(--txt3); font-family:'DM Mono',monospace; letter-spacing:2px; margin-bottom:12px;">SECURITY ROADMAP</div>
+      <table class="phase-table">
+        <thead>
+          <tr>
+            <th>PHASE</th>
+            <th class="ja">認証強度</th><th class="en">STRENGTH</th>
+            <th class="ja">用途</th><th class="en">USE CASE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="ph-badge ph-now">NOW</span></td>
+            <td><span class="ja">苗字1字×32色</span><span class="en">1 Kanji × 32 colors</span></td>
+            <td><span class="ja">業務アプリ</span><span class="en">Business apps</span></td>
+          </tr>
+          <tr>
+            <td><span class="ph-badge ph-2">PH.2</span></td>
+            <td><span class="ja">2字×32色</span><span class="en">2 Kanji × 32 colors</span></td>
+            <td><span class="ja">中規模サービス</span><span class="en">Mid-scale services</span></td>
+          </tr>
+          <tr>
+            <td><span class="ph-badge ph-3">PH.3</span></td>
+            <td><span class="ja">2字×64bit</span><span class="en">2 Kanji × 64-bit</span></td>
+            <td><span class="ja">商用サービス</span><span class="en">Commercial services</span></td>
+          </tr>
+          <tr>
+            <td><span class="ph-badge ph-4">PH.4</span></td>
+            <td><span class="ja">2字×128bit</span><span class="en">2 Kanji × 128-bit</span></td>
+            <td><span class="ja">高セキュリティ</span><span class="en">High security</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <a class="demo-link" href="https://robertohoshino.github.io/parking-reservation/" target="_blank">
+    ▶ LIVE DEMO — 駐車場予約システム（認証プロトタイプ）/ Parking Reservation System
+  </a>
+</div>
+
+<!-- 3. MARKET -->
+<div class="section">
+  <div class="sec-num">03 / 06</div>
+  <div class="sec-title ja">市場規模</div>
+  <div class="sec-title en">Market Size</div>
+  <div class="sec-title-en">MARKET</div>
+
+  <div class="market-grid">
+    <div class="market-card">
+      <div class="market-num">$40B+</div>
+      <div class="market-label ja">世界の認証市場（2024）</div>
+      <div class="market-label en">Global Auth Market (2024)</div>
+      <div class="market-label-en">GLOBAL TAM</div>
+    </div>
+    <div class="market-card">
+      <div class="market-num">14億人</div>
+      <div class="market-label ja">漢字圏ユーザー（日中台韓）</div>
+      <div class="market-label en">Kanji-zone users (JP/CN/TW/KR)</div>
+      <div class="market-label-en">ADDRESSABLE USERS</div>
+    </div>
+    <div class="market-card">
+      <div class="market-num">270社+</div>
+      <div class="market-label ja">国内証券会社（即時ターゲット）</div>
+      <div class="market-label en">Domestic securities firms</div>
+      <div class="market-label-en">IMMEDIATE TARGET</div>
+    </div>
+    <div class="market-card">
+      <div class="market-num">¥100B+</div>
+      <div class="market-label ja">中期売上ポテンシャル</div>
+      <div class="market-label en">Mid-term revenue potential</div>
+      <div class="market-label-en">REVENUE TARGET</div>
+    </div>
+  </div>
+
+  <div class="solution-box">
+    <div style="font-size:12px; color:var(--txt2); line-height:2;">
+      <span class="ja">
+        既存顧客（証券・金融・業務系SaaS）への<span class="hl">横展開が即座に可能</span>。駐車場予約→会議室→勤怠→イベント受付→金融機関ログイン——同一の認証コアで<span class="hl">あらゆる業務アプリに展開</span>できる。Smart Life Styles™ の出版・金融ゾーンとの<span class="hl-cyan">シナジーも最大化</span>。
+      </span>
+      <span class="en">
+        <span class="hl">Immediate cross-sell</span> to existing customers (securities, finance, B2B SaaS). Parking → conference rooms → attendance → event check-in → financial login — <span class="hl">one auth core, infinite applications</span>. Maximum <span class="hl-cyan">synergy</span> with Smart Life Styles™ publishing and finance zones.
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- 4. MOAT -->
+<div class="section">
+  <div class="sec-num">04 / 06</div>
+  <div class="sec-title ja">競合優位性・参入障壁</div>
+  <div class="sec-title en">Competitive Moat</div>
+  <div class="sec-title-en">WHY US</div>
+
+  <div class="moat-list">
+    <div class="moat-item">
+      <div class="moat-icon" style="background:rgba(200,150,10,0.15);color:var(--gold2)">特</div>
+      <div class="moat-content">
+        <div class="moat-title ja">特許出願済み（色彩日本語認証）</div>
+        <div class="moat-title en">Patent Pending — Chromatic Japanese Authentication</div>
+        <div class="moat-title-en">IP PROTECTION</div>
+        <div class="moat-body ja">漢字×HEXカラーによる認証システムは特許出願中。優先日が確保されており、後発参入者をブロックする強固な知的財産の壁。天然色漢字INDEX™の応用技術として特許ポートフォリオを構築。</div>
+        <div class="moat-body en">Patent pending for Kanji × HEX color authentication. Priority date secured, creating a strong IP barrier against latecomers. Building a patent portfolio as applied technology of the Colorful Kanji Index™.</div>
+      </div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-icon" style="background:rgba(74,222,128,0.12);color:var(--green)">証</div>
+      <div class="moat-content">
+        <div class="moat-title ja">動くデモが今日ある</div>
+        <div class="moat-title en">Live Demo Available Today</div>
+        <div class="moat-title-en">WORKING PROTOTYPE</div>
+        <div class="moat-body ja">駐車場予約システムとして実際に動作するプロトタイプがGitHub Pagesで公開中。アイデア段階ではなく、実装済みの技術として投資判断が可能。</div>
+        <div class="moat-body en">A working prototype as a parking reservation system is live on GitHub Pages. Investment decisions can be made based on implemented technology, not just ideas.</div>
+      </div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-icon" style="background:rgba(34,211,238,0.12);color:var(--cyan)">文</div>
+      <div class="moat-content">
+        <div class="moat-title ja">文化的記憶という再現不可能な資産</div>
+        <div class="moat-title en">Irreplicable Cultural Memory Asset</div>
+        <div class="moat-title-en">CULTURAL MOAT</div>
+        <div class="moat-body ja">漢字は14億人の文化的DNAに刻まれた記憶体系。「星」という文字に「緑」を結びつける記憶は、フィッシングでも盗めない。技術だけでは模倣できない文化的障壁。</div>
+        <div class="moat-body en">Kanji is encoded in the cultural DNA of 1.4 billion people. The memory of associating "星" (star) with green cannot be stolen by phishing. A cultural barrier that technology alone cannot replicate.</div>
+      </div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-icon" style="background:rgba(167,139,250,0.12);color:var(--purple)">網</div>
+      <div class="moat-content">
+        <div class="moat-title ja">30年の顧客ネットワーク×即時展開可能</div>
+        <div class="moat-title en">30-Year Customer Network × Ready to Deploy</div>
+        <div class="moat-title-en">DISTRIBUTION</div>
+        <div class="moat-body ja">DANKSOFTの30年の顧客基盤（証券・金融・業務系）に対して、既存の信頼関係で即時展開可能。徳島合同証券・大和証券グループとの連携が最初のフライホイール。</div>
+        <div class="moat-body en">Immediate deployment to DUNKSOFT's 30-year customer base (securities, finance, B2B) via existing trust relationships. Tokushima Godo Securities and Daiwa Securities as the first flywheel.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. TRACTION -->
+<div class="section">
+  <div class="sec-num">05 / 06</div>
+  <div class="sec-title ja">現在の進捗と次のマイルストーン</div>
+  <div class="sec-title en">Traction & Milestones</div>
+  <div class="sec-title-en">TRACTION</div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:20px 0;">
+    <div>
+      <div style="font-size:11px; color:var(--green); font-family:'DM Mono',monospace; letter-spacing:2px; margin-bottom:12px;">✓ COMPLETED</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--green); flex-shrink:0;">✓</span>
+          <span class="ja">色彩日本語認証　特許出願</span><span class="en">Chromatic Japanese Auth patent filed</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--green); flex-shrink:0;">✓</span>
+          <span class="ja">Phase 1 プロトタイプ公開（駐車場予約）</span><span class="en">Phase 1 prototype live (parking system)</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--green); flex-shrink:0;">✓</span>
+          <span class="ja">天然色漢字INDEX™ 特許出願</span><span class="en">Colorful Kanji Index™ patent filed</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--green); flex-shrink:0;">✓</span>
+          <span class="ja">出版社6社デモ公開</span><span class="en">6 publisher demos live</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--green); flex-shrink:0;">✓</span>
+          <span class="ja">徳島合同証券との打ち合わせ設定済み</span><span class="en">Meeting set with Tokushima Godo Securities</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:11px; color:var(--gold); font-family:'DM Mono',monospace; letter-spacing:2px; margin-bottom:12px;">→ NEXT 12 MONTHS</div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--gold); flex-shrink:0;">→</span>
+          <span class="ja">金融機関パイロット導入（〜2026年6月）</span><span class="en">Financial institution pilot (by Jun 2026)</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--gold); flex-shrink:0;">→</span>
+          <span class="ja">Phase 2 実装・会議室/備品管理展開</span><span class="en">Phase 2 rollout — meeting rooms, asset mgmt</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--gold); flex-shrink:0;">→</span>
+          <span class="ja">証券業協会への業界提案</span><span class="en">Industry proposal to Securities Dealers Assoc.</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--gold); flex-shrink:0;">→</span>
+          <span class="ja">野村財団研究助成申請（2026年6月末）</span><span class="en">Nomura Foundation grant application (Jun 2026)</span>
+        </div>
+        <div style="display:flex; gap:10px; font-size:12px; color:var(--txt2);">
+          <span style="color:var(--gold); flex-shrink:0;">→</span>
+          <span class="ja">漢字圏（中・台・韓）展開検討開始</span><span class="en">Begin Kanji-zone expansion (CN/TW/KR)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. ASK -->
+<div class="section">
+  <div class="sec-num">06 / 06</div>
+  <div class="sec-title ja">資金調達と使途</div>
+  <div class="sec-title en">Funding Ask & Use of Proceeds</div>
+  <div class="sec-title-en">THE ASK</div>
+
+  <div class="ask-grid">
+    <div class="ask-card" style="border-color:rgba(200,150,10,0.3);">
+      <div class="ask-amount">¥50M</div>
+      <div class="ask-label ja">想定調達額（シード）</div>
+      <div class="ask-label en">Target raise (Seed)</div>
+      <div class="ask-label-en">SEED ROUND</div>
+    </div>
+    <div class="ask-card">
+      <div class="ask-amount">40%</div>
+      <div class="ask-label ja">開発費（Phase 2〜3実装）</div>
+      <div class="ask-label en">Development (Phase 2–3)</div>
+      <div class="ask-label-en">R&D</div>
+    </div>
+    <div class="ask-card">
+      <div class="ask-amount">30%</div>
+      <div class="ask-label ja">営業・パートナー開発</div>
+      <div class="ask-label en">Sales & partnerships</div>
+      <div class="ask-label-en">GTM</div>
+    </div>
+    <div class="ask-card">
+      <div class="ask-amount">30%</div>
+      <div class="ask-label ja">特許維持・国際出願</div>
+      <div class="ask-label en">IP maintenance & intl filing</div>
+      <div class="ask-label-en">IP</div>
+    </div>
+  </div>
+
+  <div class="solution-box" style="margin-top:24px;">
+    <div style="font-size:14px; font-weight:700; color:var(--gold2); margin-bottom:10px;" class="ja">
+      なぜ今か
+    </div>
+    <div style="font-size:14px; font-weight:700; color:var(--gold2); margin-bottom:10px;" class="en">
+      Why Now
+    </div>
+    <div style="font-size:12px; color:var(--txt2); line-height:2;">
+      <span class="ja">
+        ①特許の優先日は確保済み——<span class="hl">動けるのは今だけ</span>。②こどもNISA制度化・金融教育義務化の波が<span class="hl">認証需要を押し上げる</span>。③ハッキング被害が過去最大規模に達し、<span class="hl">市場が解決策を探している</span>。④動くデモと30年の顧客基盤という<span class="hl">実証済みの土台</span>がある。
+      </span>
+      <span class="en">
+        ① Patent priority date secured — <span class="hl">the window to act is now</span>. ② Children's NISA legislation and mandatory financial education will <span class="hl">drive authentication demand</span>. ③ Record-high cyberattack damage means <span class="hl">the market is actively seeking solutions</span>. ④ A working demo and 30-year customer base provide a <span class="hl">proven foundation</span>.
+      </span>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <a class="demo-link" href="https://robertohoshino.github.io/parking-reservation/" target="_blank">
+      ▶ DEMO — Parking Reservation (Auth Prototype)
+    </a>
+    <a class="demo-link" href="https://robertohoshino.github.io/pubuisher-demo/" target="_blank" style="margin-left:8px;">
+      ▶ DEMO — Publisher Index (Kanji TAG System)
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="pitch-footer">
+  <div>DUNKSOFT Co., Ltd. &nbsp;·&nbsp; COLORFUL KANJI AUTH™ &nbsp;·&nbsp; PATENT PENDING</div>
+  <div>Smart Life Styles™ &nbsp;·&nbsp; CONFIDENTIAL &nbsp;·&nbsp; 2026</div>
+</div>
+
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('en-mode', lang === 'en');
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === lang.toUpperCase());
+  });
+}
+</script>
+</body>
+</html>
